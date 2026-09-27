@@ -10,7 +10,7 @@ SETUP (5-10 min):
   2. Get a free key at https://aistudio.google.com/apikey (see chat for steps)
   3. export GEMINI_API_KEY="AIza..."
   4. python server.py
-  5. Open http://127.0.0.1:8080
+  5. Open http://localhost:5000
 
 CUSTOMIZE: edit faqs.json, not this file, to change the business's answers.
 """
@@ -20,16 +20,9 @@ import json
 from flask import Flask, request, jsonify, send_from_directory
 import google.generativeai as genai
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 
-api_key = os.environ.get("GEMINI_API_KEY", "").strip()
-if not api_key:
-    raise RuntimeError(
-        "GEMINI_API_KEY is missing. Get a free key at https://aistudio.google.com/apikey "
-        'then run: export GEMINI_API_KEY="your-key"'
-    )
-genai.configure(api_key=api_key)
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
 with open(os.path.join(os.path.dirname(__file__), "faqs.json"), encoding="utf-8") as f:
     business_data = json.load(f)
@@ -51,16 +44,16 @@ FAQs:
 {faq_text}
 """
 
-# gemini-3.6-flash is the current free-tier Flash model.
+# gemini-2.5-flash carries the generous free-tier quota as of 2026.
 model = genai.GenerativeModel(
-    model_name="gemini-3.6-flash",
+    model_name="gemini-2.5-flash",
     system_instruction=SYSTEM_PROMPT,
 )
 
 
 @app.route("/")
 def index():
-    return send_from_directory(BASE_DIR, "index.html")
+    return send_from_directory(app.static_folder, "index.html")
 
 
 @app.route("/api/chat", methods=["POST"])
@@ -89,4 +82,5 @@ def chat():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="127.0.0.1", port=8080)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
