@@ -1,0 +1,68 @@
+{
+  "business_name": "Chaabi Roops",
+  "tagline": "Handcrafted sarees & pure silver jewellery",
+  "tone_notes": "Warm, friendly, personal - like talking to the founder directly. Keep answers short (1-3 sentences).",
+
+  "faqs": [
+    {
+      "question": "How do I place an order?",
+      "answer": "Just DM us the product you love along with your size or preferences, and we'll guide you through payment and delivery."
+    },
+    {
+      "question": "Do you ship pan-India?",
+      "answer": "Yes, we ship across India."
+    },
+    {
+      "question": "Do you ship internationally?",
+      "answer": "Yes, international shipping is available on request - just DM us your location and we'll share the details."
+    },
+    {
+      "question": "What is the delivery time?",
+      "answer": "Typically 5-7 business days within India after your order is confirmed."
+    },
+    {
+      "question": "What payment methods do you accept?",
+      "answer": "We accept UPI and bank transfer. Details are shared once you confirm your order over DM."
+    },
+    {
+      "question": "Is the jewellery real silver?",
+      "answer": "Yes, all our jewellery is pure, hallmark-checked silver."
+    },
+    {
+      "question": "Are the sarees handmade?",
+      "answer": "Yes, every saree is handcrafted with genuine care and craftsmanship."
+    },
+    {
+      "question": "Do you offer returns or exchanges?",
+      "answer": "Exchanges are offered for sizing issues within 3 days of delivery, as long as the item is unused and in its original packaging."
+    },
+    {
+      "question": "What if my order arrives damaged?",
+      "answer": "Please DM us a photo right away - we'll sort out a replacement or refund for you."
+    },
+    {
+      "question": "How is the order packaged?",
+      "answer": "Every piece is carefully packed to travel safely, with the same attention we'd give a gift."
+    },
+    {
+      "question": "Do you offer customization?",
+      "answer": "Some pieces can be customized on request - send us what you have in mind and we'll let you know what's possible."
+    },
+    {
+      "question": "How do I know my size?",
+      "answer": "Share your usual measurements or a saree/blouse size you already wear, and we'll help you pick the right fit."
+    },
+    {
+      "question": "Do you offer cash on delivery (COD)?",
+      "answer": "Currently we work on prepaid orders via UPI or bank transfer, confirmed over DM."
+    },
+    {
+      "question": "Can I cancel an order after placing it?",
+      "answer": "Cancellations are possible before the order ships - DM us as soon as possible if you need to change or cancel."
+    },
+    {
+      "question": "How do I take care of a handcrafted saree or silver jewellery?",
+      "answer": "Sarees are best dry-cleaned or hand-washed gently, and silver jewellery stays brightest when kept dry and wiped with a soft cloth after wear."
+    }
+  ]
+}

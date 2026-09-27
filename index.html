@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chaabi Roops — Ask us anything</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #B5657A;
+    --rose-deep: #8F4B5C;
+    --silver: #ADB2B7;
+    --cream: #FBF7F1;
+    --ink: #2E2A28;
+    --taupe: #8A7F78;
+    --line: #E8DFD5;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--cream);
+    font-family: 'Work Sans', sans-serif;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .widget {
+    width: 100%;
+    max-width: 420px;
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -20px rgba(143, 75, 92, 0.22);
+    display: flex;
+    flex-direction: column;
+    height: 640px;
+  }
+
+  .header {
+    background: var(--rose);
+    padding: 22px 24px 20px;
+    position: relative;
+  }
+
+  .header::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--silver), transparent 75%);
+  }
+
+  .brand {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: #FBF7F1;
+    margin: 0;
+    letter-spacing: 0.2px;
+  }
+
+  .subtitle {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #F3E1E6;
+  }
+
+  .messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #FFFDFA;
+  }
+
+  .msg {
+    max-width: 82%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 14.5px;
+    line-height: 1.45;
+  }
+
+  .msg.bot {
+    align-self: flex-start;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg.user {
+    align-self: flex-end;
+    background: var(--rose);
+    color: #FBF7F1;
+    border-bottom-right-radius: 4px;
+  }
+
+  .msg.typing {
+    align-self: flex-start;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    color: var(--taupe);
+    font-style: italic;
+  }
+
+  .composer {
+    display: flex;
+    gap: 8px;
+    padding: 14px;
+    border-top: 1px solid var(--line);
+    background: #FFFFFF;
+  }
+
+  .composer input {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14.5px;
+    color: var(--ink);
+    outline: none;
+    background: var(--cream);
+  }
+
+  .composer input:focus {
+    border-color: var(--silver);
+  }
+
+  .composer button {
+    background: var(--rose);
+    color: #FBF7F1;
+    border: none;
+    border-radius: 10px;
+    padding: 0 18px;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .composer button:hover {
+    background: var(--rose-deep);
+  }
+
+  .composer button:disabled {
+    background: var(--taupe);
+    cursor: not-allowed;
+  }
+
+  .hint {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--taupe);
+    padding: 8px 0 2px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="widget">
+    <div class="header">
+      <p class="brand">Chaabi Roops</p>
+      <p class="subtitle">Handcrafted sarees &amp; pure silver jewellery</p>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="msg bot">Namaste! Ask me about sizing, pricing, shipping, or how to order — happy to help. 🌸</div>
+    </div>
+
+    <div class="composer">
+      <input id="input" type="text" placeholder="Ask a question..." autocomplete="off" />
+      <button id="send">Send</button>
+    </div>
+    <p class="hint">Demo assistant — answers based on Chaabi Roops FAQs</p>
+  </div>
+
+<script>
+  const messagesEl = document.getElementById('messages');
+  const inputEl = document.getElementById('input');
+  const sendBtn = document.getElementById('send');
+
+  let history = [];
+
+  function addMessage(text, role) {
+    const div = document.createElement('div');
+    div.className = 'msg ' + role;
+    div.textContent = text;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  async function sendMessage() {
+    const text = inputEl.value.trim();
+    if (!text) return;
+
+    addMessage(text, 'user');
+    history.push({ role: 'user', content: text });
+    inputEl.value = '';
+    sendBtn.disabled = true;
+
+    const typingEl = addMessage('Typing...', 'typing');
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, history: history.slice(0, -1) })
+      });
+      const data = await res.json();
+      typingEl.remove();
+
+      if (data.reply) {
+        addMessage(data.reply, 'bot');
+        history.push({ role: 'assistant', content: data.reply });
+      } else {
+        addMessage('Sorry, something went wrong. Please try again.', 'bot');
+      }
+    } catch (err) {
+      typingEl.remove();
+      addMessage('Connection error — is the server running?', 'bot');
+    }
+
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+  inputEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
+</script>
+
+</body>
+</html>
