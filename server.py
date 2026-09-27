@@ -46,7 +46,7 @@ FAQs:
 
 # gemini-2.5-flash carries the generous free-tier quota as of 2026.
 model = genai.GenerativeModel(
-    model_name="gemini-2.5-flash",
+    model_name="gemini-3.8-flash",
     system_instruction=SYSTEM_PROMPT,
 )
 
